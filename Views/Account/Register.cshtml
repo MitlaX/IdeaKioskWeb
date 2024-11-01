@@ -1,0 +1,53 @@
+﻿@model RegisterViewModel
+
+<div class="container mt-5">
+    <h2 class="text-center">Registrarse</h2>
+
+    <form asp-action="Register" method="post" class="needs-validation" novalidate>
+         <div asp-validation-summary="All" class="alert alert-danger" role="alert" style="display:none;"></div>
+        
+        <div class="form-group">
+            <label asp-for="NumEmpleado" class="form-label">Número de Empleado</label>
+            <input asp-for="NumEmpleado" class="form-control" required />
+            <span asp-validation-for="NumEmpleado" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="UserName" class="form-label">Nombre de Usuario</label>
+            <input asp-for="UserName" class="form-control" required />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password" class="form-label">Contraseña</label>
+            <input asp-for="Password" class="form-control" type="password" required />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ConfirmPassword" class="form-label">Confirmar Contraseña</label>
+            <input asp-for="ConfirmPassword" class="form-control" type="password" required />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100 mb-2">Registrarse</button>
+    </form>
+</div>
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    
+    <script>
+        // Mostrar el resumen de errores en la validación
+        $(document).ready(function () {
+            $("form").on("submit", function (e) {
+                if (!this.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    $('.alert').show();
+                }
+            });
+        });
+    </script>
+}

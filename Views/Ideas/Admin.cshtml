@@ -1,0 +1,140 @@
+﻿@model IEnumerable<IdeaKioskWeb.Models.Domain.Idea>
+
+@{
+    ViewData["Title"] = "Administrar Ideas";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+   
+</div>
+
+<!-- Formulario de Filtros -->
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="estado" class="form-label">Estado</label>
+            <select name="estado" id="estado" class="form-select">
+                <option value="">Todos</option>
+                <option value="En revisión">En revisión</option>
+                <option value="Aprobada">Aprobada</option>
+                <option value="Rechazada">Rechazada</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="empleado" class="form-label">Empleado</label>
+            <input type="text" name="empleado" id="empleado" class="form-control" placeholder="Nombre del empleado" />
+        </div>
+        <div class="col-md-4">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <input type="text" name="descripcion" id="descripcion" class="form-control" placeholder="Palabras clave" />
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <label for="fechaInicio" class="form-label">Fecha Creación Desde</label>
+            <input type="date" name="fechaInicio" id="fechaInicio" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label for="fechaFin" class="form-label">Fecha Creación Hasta</label>
+            <input type="date" name="fechaFin" id="fechaFin" class="form-control" />
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+            <a href="@Url.Action("Admin")" class="btn btn-secondary">Limpiar Filtros</a>
+            <a asp-action="ExportToExcel" class="btn btn-success">Exportar a Excel</a>
+             <a href="#" class="btn btn-info" id="sendReport">Enviar Reporte</a>    
+        </div>
+    </div>
+</form>
+
+<!-- Tabla de Ideas Filtradas -->
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Empleado</th>
+                <th>Fecha Creación</th>
+                <th>Imagen</th>
+                <th>Estado</th>
+                <th>Cambiar Estado</th>
+                <th>Feedback</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var idea in Model)
+            {
+                <tr>
+                    <td>@idea.Id_idea</td>
+                    <td>@idea.Descripcion</td>
+                    <td>@idea.Empleado?.Nombre @idea.Empleado?.Apellido</td>
+                    <td>@idea.FechaCreacion.ToShortDateString()</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(idea.ImagenRuta))
+                        {
+                            <a href="@idea.ImagenRuta" class="btn btn-info btn-sm" target="_blank">Ver Imagen</a>
+                        }
+                        else
+                        {
+                            <span>Sin Imagen</span>
+                        }
+                    </td>
+                    <td>@idea.Estado</td>
+                    <td>
+                        <form asp-action="CambiarEstado" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@idea.Id_idea" />
+                            <select name="estado" class="form-select" onchange="this.form.submit()">
+                                <option value="@idea.Estado" selected>@idea.Estado</option>
+                                <option value="Aprobada">Aprobada</option>
+                                <option value="Rechazada">Rechazada</option>
+                            </select>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" asp-action="AddFeedback" class="d-inline">
+                        <input type="hidden" name="id" value="@idea.Id_idea" />
+                        <input type="text" name="feedback" placeholder="Comentario..." class="form-control" value="@idea.Feedback" />
+                        <button type="submit" class="btn btn-secondary btn-sm">Agregar Feedback</button>
+                    </form>
+                    </td>
+                    <td>
+                        <form asp-action="EliminarIdea" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@idea.Id_idea" />
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#sendReport').on('click', function (e) {
+                e.preventDefault(); // Prevenir el comportamiento por defecto del enlace
+                $.ajax({
+                    url: '@Url.Action("SendReport", "Ideas")',
+                    type: 'POST',
+                    success: function (response) {
+                        alert('Reporte enviado exitosamente.');
+                    },
+                    error: function (xhr, status, error) {
+                        alert(`Error al enviar el reporte: ${xhr.responseText}`);
+                        console.log(xhr); // Ver información adicional en la consola
+                    }
+                });
+            });
+        });
+    </script>
+}

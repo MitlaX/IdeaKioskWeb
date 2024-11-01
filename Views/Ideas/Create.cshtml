@@ -1,0 +1,80 @@
+﻿@model IdeaEmpleadoViewModel
+
+@{
+    ViewData["Title"] = "Registrar Idea";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0 text-center">Registrar Idea</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+                        <!-- Mostrar todos los errores del modelo -->
+                        <div class="text-danger">
+                            <span asp-validation-summary="All"></span>
+                        </div>
+
+                        <h4 class="mb-4">Información del Empleado</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Empleado.NumeroEmpleado" class="control-label">Número de Empleado</label>
+                                    <input asp-for="Empleado.NumeroEmpleado" class="form-control" readonly value="@Model.Empleado.NumeroEmpleado" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Empleado.Nombre" class="control-label">Nombre</label>
+                                    <input asp-for="Empleado.Nombre" class="form-control" readonly value="@Model.Empleado.Nombre" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Empleado.Apellido" class="control-label">Apellido</label>
+                                    <input asp-for="Empleado.Apellido" class="form-control" readonly value="@Model.Empleado.Apellido" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Empleado.Area" class="control-label">Área</label>
+                                    <input asp-for="Empleado.Area" class="form-control" readonly value="@Model.Empleado.Area" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Empleado.Email" class="control-label">Email</label>
+                                    <input asp-for="Empleado.Email" class="form-control" readonly value="@Model.Empleado.Email" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Empleado.Telefono" class="control-label">Teléfono</label>
+                                    <input asp-for="Empleado.Telefono" class="form-control" readonly value="@Model.Empleado.Telefono" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <h4 class="mb-4">Descripción de la Idea</h4>
+                        <div class="form-group">
+                            <label asp-for="Idea.Descripcion" class="control-label">Descripción de la Idea</label>
+                            <textarea asp-for="Idea.Descripcion" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Idea.Descripcion" class="text-danger"></span>
+                        </div>
+
+                        <!-- Campo de imagen opcional -->
+                        <div class="form-group">
+                            <label for="ImagenRuta" class="control-label">Agregar Imagen (Opcional)</label>
+                            <input type="file" name="imagenArchivo" class="form-control-file" />
+                            <span asp-validation-for="Idea.ImagenRuta" class="text-danger"></span>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success btn-lg px-5">Enviar Idea</button>
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary btn-lg px-5 ml-2">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

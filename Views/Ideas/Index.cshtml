@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1>Ideas del Kiosko</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Descripción</th>
+            <th>Votos</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var idea in Model)
+        {
+            <tr>
+                <td>@idea.Descripcion</td>
+                <td>@idea.Votos.Count</td>
+                <td>
+                    <form method="post" asp-action="Votar" asp-route-id="@idea.Id">
+                        <button type="submit" class="btn btn-primary">Votar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

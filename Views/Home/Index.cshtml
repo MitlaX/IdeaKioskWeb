@@ -1,0 +1,60 @@
+﻿@model Empleado
+
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="container mt-5">
+    @if (User.Identity.IsAuthenticated && Model != null)
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+                    <div class="card-body text-center">
+                        <h2 class="card-title text-primary">Bienvenido, @Model.Nombre @Model.Apellido</h2>
+                        <p class="card-text text-muted">Estamos encantados de verte en la aplicación.</p>
+                        <hr />
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <p class="text-secondary"><strong>Número de Empleado:</strong></p>
+                                <p class="text-dark">@Model.NumeroEmpleado</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-secondary"><strong>Área:</strong></p>
+                                <p class="text-dark">@Model.Area</p>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <p class="text-secondary"><strong>Email:</strong></p>
+                                <p class="text-dark">@Model.Email</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-secondary"><strong>Teléfono:</strong></p>
+                                <p class="text-dark">@Model.Telefono</p>
+                            </div>
+                        </div>
+                   @*     <div class="mt-4">
+                            <a href="@Url.Action("Create", "Ideas")" class="btn btn-success btn-lg">Registrar Nueva Idea</a>
+                            <a href="@Url.Action("Votar", "Ideas")" class="btn btn-primary btn-lg">Votar por Ideas</a>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+                    <div class="card-body text-center">
+                        <h2 class="card-title text-primary">Bienvenido a la Aplicación</h2>
+                        <p class="card-text text-muted">Por favor, inicia sesión para acceder a tu información.</p>
+                        <a href="@Url.Action("Login", "Account")" class="btn btn-primary btn-lg">Iniciar Sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

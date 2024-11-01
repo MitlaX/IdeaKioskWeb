@@ -1,0 +1,16 @@
+﻿@model IdeaKioskWeb.Models.Domain.EditUserRolesViewModel
+
+<h2>Editar Roles para @Model.UserName</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="UserId" />
+
+    <div class="form-group">
+        <label for="SelectedRole">Seleccionar Rol</label>
+        <select asp-for="SelectedRole" class="form-control" asp-items="Model.AllRoles">
+            <option value="">Seleccione un rol</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+</form>

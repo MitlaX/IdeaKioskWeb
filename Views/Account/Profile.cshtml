@@ -1,0 +1,49 @@
+﻿@model ProfileViewModel
+
+<div class="container mt-4">
+    <h2>Perfil de @Model.UserName</h2>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            Información Personal
+        </div>
+        <div class="card-body">
+            <p><strong>Nombre:</strong> @Model.Nombre @Model.Apellido</p>
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Área:</strong> @Model.Area</p>
+            <p><strong>Teléfono:</strong> @Model.Telefono</p>
+            <p><strong>Rol:</strong> @Model.Rol</p>
+        </div>
+    </div>
+
+<h3>Ideas Asociadas</h3>
+@if (Model.Ideas != null && Model.Ideas.Count > 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Fecha de Creación</th>
+                <th>Feedback</th> <!-- Nueva columna para feedback -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var idea in Model.Ideas)
+            {
+                <tr>
+                    <td>@idea.Descripcion</td>
+                    <td>@idea.Estado</td>
+                    <td>@idea.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                    <td>@idea.Feedback</td> <!-- Mostrar feedback aquí -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay ideas asociadas a este usuario.</p>
+}
+
+</div>
